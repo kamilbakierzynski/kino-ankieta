@@ -1,0 +1,598 @@
+<!doctype html>
+<html lang="pl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#ffd93b">
+<title>Zobaczysz wszystko – kiedy idziemy?</title>
+<meta name="description" content="Ankieta: który seans „Zobaczysz wszystko” w Gdańsku 11.11 nam pasuje?">
+<meta property="og:title" content="Zobaczysz wszystko – kiedy idziemy?">
+<meta property="og:description" content="Zaznacz seanse w Gdańsku 11.11, które ci pasują.">
+<meta property="og:image" content="https://img.helios.pl/obrazy/265x382@x2/film/zobaczysz-wszystko/zobaczysz-wszystko-plakat-114.jpg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,700;12..96,800&family=Figtree:wght@400;500;600;700&family=JetBrains+Mono:wght@600;700&display=swap" rel="stylesheet">
+<style>
+/* Layout: single phone-first column. Yellow hero with Nathan "stickers", then name, results, cinema sections of showing cards; sticky save bar. Deliberately one bright light theme. */
+:root {
+  --sun: #ffd93b;
+  --paper: #fff8e1;
+  --card: #ffffff;
+  --ink: #1d1630;
+  --muted: #6b6280;
+  --line: #eadfbf;
+  --pop: #ff3d7f;
+  --sky: #3aa0ff;
+  --yes: #13894a;   --yes-bg: #dcf5e6;
+  --maybe: #b86a00; --maybe-bg: #ffefcc;
+  --no: #d22f3a;    --no-bg: #ffe0e2;
+  --display: "Bricolage Grotesque", "Arial Rounded MT Bold", system-ui, sans-serif;
+  --body: "Figtree", "Segoe UI", system-ui, sans-serif;
+  --mono: "JetBrains Mono", ui-monospace, Consolas, monospace;
+  color-scheme: light;
+}
+* { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+body {
+  margin: 0; background: var(--paper); color: var(--ink);
+  font: 16px/1.5 var(--body);
+  padding-bottom: calc(92px + env(safe-area-inset-bottom, 0px));
+  overflow-x: hidden;
+}
+img { max-width: 100%; }
+.wrap {
+  max-width: 640px; margin: 0 auto;
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+}
+
+/* ---------- hero ---------- */
+.hero { background: var(--sun); border-bottom: 3px solid var(--ink); overflow: hidden; }
+.hero .wrap { padding-block: calc(18px + env(safe-area-inset-top, 0px)) 22px; position: relative; }
+.date-pill {
+  display: inline-flex; align-items: center; gap: 8px;
+  font: 700 13px/1 var(--mono); letter-spacing: .02em;
+  background: var(--ink); color: var(--sun); padding: 8px 12px; border-radius: 999px;
+}
+.hero-grid { display: grid; grid-template-columns: 1fr 118px; gap: 14px; align-items: end; margin-top: 16px; }
+h1 { font: 800 clamp(34px, 10.5vw, 58px)/.95 var(--display); margin: 0; letter-spacing: -.02em; text-wrap: balance; }
+h1 em { font-style: normal; color: var(--pop); }
+.poster {
+  width: 118px; aspect-ratio: 400 / 576; border-radius: 10px; border: 3px solid var(--ink);
+  box-shadow: 5px 5px 0 var(--ink); transform: rotate(4deg); overflow: hidden; background: var(--ink);
+}
+.poster img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.stickers { display: flex; align-items: center; gap: 12px; margin-top: 18px; }
+.sticker {
+  width: 74px; height: 74px; flex: 0 0 auto; border-radius: 50%; overflow: hidden;
+  border: 4px solid #fff; box-shadow: 0 0 0 3px var(--ink), 4px 5px 0 3px var(--ink);
+  background: #ccc;
+}
+.sticker img { width: 100%; height: 100%; object-fit: cover; object-position: center 25%; display: block; }
+.sticker.a { transform: rotate(-8deg); }
+.sticker.b { transform: rotate(7deg); width: 60px; height: 60px; }
+.bubble {
+  position: relative; background: #fff; border: 3px solid var(--ink); border-radius: 18px;
+  padding: 10px 14px; font-weight: 600; font-size: 15px; line-height: 1.35; min-width: 0;
+  box-shadow: 3px 3px 0 var(--ink);
+}
+.bubble::before {
+  content: ""; position: absolute; left: -12px; top: 22px; width: 16px; height: 16px;
+  background: #fff; border-left: 3px solid var(--ink); border-bottom: 3px solid var(--ink);
+  transform: rotate(45deg);
+}
+.lede { margin: 16px 0 0; font-size: 16px; font-weight: 500; }
+.facts { display: flex; flex-wrap: wrap; gap: 6px; margin: 12px 0 0; padding: 0; list-style: none; }
+.facts li { font: 700 12px/1 var(--mono); background: rgb(255 255 255 / .7); border: 2px solid var(--ink); border-radius: 999px; padding: 6px 10px; }
+@media (prefers-reduced-motion: no-preference) {
+  .sticker.a { animation: wob 3.2s ease-in-out infinite; }
+  .sticker.b { animation: wob 3.2s ease-in-out -1.6s infinite; }
+  @keyframes wob { 0%, 100% { transform: rotate(-8deg); } 50% { transform: rotate(-2deg) translateY(-3px); } }
+}
+
+/* ---------- generic ---------- */
+section { margin-top: 26px; }
+h2 { font: 800 26px/1.05 var(--display); margin: 0; letter-spacing: -.01em; }
+.box { background: var(--card); border: 2.5px solid var(--ink); border-radius: 18px; padding: 16px; box-shadow: 4px 4px 0 var(--ink); }
+.hint { color: var(--muted); font-size: 14px; margin: 8px 0 0; }
+
+label.name { display: grid; gap: 8px; font: 800 20px/1.1 var(--display); }
+input#name {
+  font: 600 18px var(--body); padding: 14px 14px; border-radius: 12px;
+  border: 2.5px solid var(--ink); background: var(--paper); color: var(--ink); width: 100%;
+}
+input#name::placeholder { color: #a69e8a; }
+input#name:focus { outline: 3px solid var(--pop); outline-offset: 2px; }
+
+/* results */
+.rank { list-style: none; margin: 14px 0 0; padding: 0; display: grid; gap: 14px; }
+.rank li { display: grid; grid-template-columns: 34px 1fr; gap: 10px; align-items: start; }
+.rank .pos { font: 800 22px/1 var(--display); text-align: center; padding-top: 2px; }
+.rank li:first-child .pos { color: var(--pop); }
+.rank .what { font-weight: 700; font-size: 17px; }
+.bar { display: flex; height: 10px; border-radius: 6px; overflow: hidden; background: var(--line); margin-top: 6px; }
+.bar i { display: block; height: 100%; }
+.bar .y { background: var(--yes); } .bar .m { background: var(--maybe); } .bar .n { background: var(--no); }
+.best { display: inline-block; font: 700 11px/1 var(--mono); text-transform: uppercase; letter-spacing: .04em; color: #fff; background: var(--yes); padding: 5px 7px; border-radius: 6px; margin-left: 6px; vertical-align: 2px; }
+.empty { color: var(--muted); margin: 10px 0 0; }
+
+/* info */
+.info { display: grid; gap: 10px; font-size: 15px; }
+.info p { margin: 0; }
+.zones { display: grid; grid-template-columns: auto 1fr; gap: 6px 12px; margin: 0; }
+.zones dt { font-weight: 700; }
+.zones dd { margin: 0; color: var(--muted); }
+
+/* cinemas */
+.cinema-head { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; margin-bottom: 12px; }
+.cinema-head h2 { background: var(--ink); color: #fff; padding: 6px 12px 8px; border-radius: 10px; transform: rotate(-1.2deg); }
+.cinema:nth-of-type(2n) .cinema-head h2 { background: var(--pop); transform: rotate(1deg); }
+.cinema:nth-of-type(3n) .cinema-head h2 { background: var(--sky); }
+.cinema-head span { color: var(--muted); font-size: 14px; font-weight: 500; }
+.shows { display: grid; gap: 14px; }
+
+.show { background: var(--card); border: 2.5px solid var(--ink); border-radius: 18px; padding: 14px; display: grid; gap: 12px; box-shadow: 4px 4px 0 var(--ink); }
+.show-top { display: grid; grid-template-columns: minmax(0, 1fr) 92px; gap: 12px; align-items: start; }
+.time { font: 700 30px/1 var(--mono); letter-spacing: -.03em; }
+.time small { display: block; font: 600 13px/1.2 var(--body); color: var(--muted); letter-spacing: 0; margin-top: 4px; }
+.meta { font-size: 14px; font-weight: 600; margin-top: 6px; }
+.meta .tag { color: var(--pop); }
+.occ { font: 600 12px/1.3 var(--mono); color: var(--muted); margin-top: 8px; }
+.occ .bar { height: 7px; margin-top: 5px; }
+.occ .bar i { background: var(--sky); }
+.thumb { width: 92px; aspect-ratio: 1; border-radius: 12px; border: 2.5px solid var(--ink); overflow: hidden; padding: 0; cursor: zoom-in; background: var(--paper); display: block; position: relative; }
+.thumb img { width: 100%; height: 100%; object-fit: cover; object-position: center 62%; display: block; }
+.thumb span { position: absolute; left: 0; right: 0; bottom: 0; font: 700 10px/1 var(--mono); background: var(--ink); color: #fff; padding: 4px 0; text-transform: uppercase; letter-spacing: .04em; }
+.thumb:focus-visible { outline: 3px solid var(--pop); outline-offset: 2px; }
+
+.prices { display: flex; flex-wrap: wrap; gap: 6px; }
+.price { font-size: 13px; font-weight: 600; padding: 5px 9px; border-radius: 8px; background: var(--paper); border: 1.5px solid var(--line); white-space: nowrap; }
+.price b { font: 700 13px var(--mono); }
+.price.later { color: var(--muted); background: transparent; font-weight: 500; }
+
+.voters { display: flex; flex-wrap: wrap; gap: 6px; min-height: 28px; align-items: center; }
+.voter { display: inline-flex; align-items: center; gap: 6px; font-size: 14px; font-weight: 700; padding: 3px 11px 3px 3px; border-radius: 999px; max-width: 100%; }
+.voter i { font-style: normal; font: 700 13px/22px var(--mono); width: 22px; height: 22px; flex: 0 0 22px; border-radius: 50%; text-align: center; color: #fff; }
+.voter.yes { background: var(--yes-bg); color: var(--yes); } .voter.yes i { background: var(--yes); }
+.voter.maybe { background: var(--maybe-bg); color: var(--maybe); } .voter.maybe i { background: var(--maybe); }
+.voter.no { background: var(--no-bg); color: var(--no); } .voter.no i { background: var(--no); }
+.voter.me { box-shadow: inset 0 0 0 2px currentColor; }
+.nobody { color: var(--muted); font-size: 13px; }
+
+.choices { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
+.choices button {
+  font: 700 14px/1.15 var(--body); min-height: 50px; padding: 8px 4px; border-radius: 12px; cursor: pointer;
+  border: 2.5px solid var(--ink); background: #fff; color: var(--ink);
+  display: grid; place-items: center; gap: 2px; touch-action: manipulation; -webkit-tap-highlight-color: transparent;
+}
+.choices button .ic { font: 700 16px/1 var(--mono); }
+.choices button:active { transform: translateY(1px); }
+.choices button:focus-visible { outline: 3px solid var(--pop); outline-offset: 2px; }
+.choices button[data-v="yes"][aria-pressed="true"] { background: var(--yes); color: #fff; border-color: var(--yes); }
+.choices button[data-v="maybe"][aria-pressed="true"] { background: var(--maybe); color: #fff; border-color: var(--maybe); }
+.choices button[data-v="no"][aria-pressed="true"] { background: var(--no); color: #fff; border-color: var(--no); }
+
+.show-foot { display: flex; justify-content: space-between; align-items: center; gap: 8px 12px; flex-wrap: wrap; font-size: 13px; }
+.fee { color: var(--muted); }
+.buy {
+  display: inline-flex; align-items: center; gap: 6px; font: 700 14px var(--body); text-decoration: none;
+  color: var(--ink); background: var(--sun); border: 2.5px solid var(--ink); border-radius: 999px; padding: 8px 14px;
+}
+.buy:focus-visible { outline: 3px solid var(--pop); outline-offset: 2px; }
+
+/* interlude */
+.interlude { margin-top: 30px; }
+.interlude figure { margin: 0; background: #fff; border: 2.5px solid var(--ink); border-radius: 18px; padding: 10px 10px 12px; box-shadow: 4px 4px 0 var(--ink); transform: rotate(-1.5deg); }
+.interlude img { width: 100%; aspect-ratio: 960 / 647; object-fit: cover; border-radius: 10px; display: block; background: var(--line); }
+.interlude figcaption { font-weight: 600; margin-top: 8px; font-size: 15px; }
+
+/* save bar */
+.savebar {
+  position: fixed; left: 0; right: 0; bottom: 0; z-index: 5;
+  background: var(--ink); color: #fff;
+  padding-top: 10px; padding-bottom: calc(10px + env(safe-area-inset-bottom, 0px));
+}
+.savebar .wrap { display: flex; align-items: center; gap: 12px; }
+.savebar .status { flex: 1; min-width: 0; font-size: 14px; font-weight: 500; line-height: 1.3; }
+#save {
+  font: 800 17px var(--display); padding: 13px 20px; border-radius: 14px; border: 2.5px solid #fff; cursor: pointer;
+  background: var(--pop); color: #fff; white-space: nowrap; touch-action: manipulation;
+}
+#save:disabled { opacity: .6; cursor: default; }
+#save:focus-visible { outline: 3px solid var(--sun); outline-offset: 2px; }
+
+/* toast */
+.toast {
+  position: fixed; left: 50%; bottom: calc(86px + env(safe-area-inset-bottom, 0px)); z-index: 6;
+  transform: translate(-50%, 20px); opacity: 0; pointer-events: none;
+  display: flex; align-items: center; gap: 10px; width: max-content; max-width: calc(100vw - 32px);
+  background: #fff; border: 2.5px solid var(--ink); border-radius: 999px; padding: 6px 16px 6px 6px;
+  box-shadow: 4px 4px 0 var(--ink); font-weight: 700;
+}
+.toast img { width: 40px; height: 40px; border-radius: 50%; object-fit: cover; object-position: center 25%; }
+.toast.show { opacity: 1; transform: translate(-50%, 0); }
+@media (prefers-reduced-motion: no-preference) { .toast { transition: opacity .2s, transform .2s; } }
+
+/* lightbox */
+dialog { border: 0; padding: 0; background: transparent; width: min(96vw, 760px); max-width: none; max-height: 92vh; }
+dialog::backdrop { background: rgb(29 22 48 / .85); }
+dialog img { width: 100%; height: auto; display: block; border-radius: 12px; border: 3px solid #fff; background: #fff; }
+dialog p { color: #fff; font-size: 14px; margin: 10px 2px 0; }
+dialog .close { position: absolute; top: 10px; right: 10px; font: 700 14px var(--body); border: 2px solid var(--ink); border-radius: 999px; padding: 8px 14px; background: var(--sun); color: var(--ink); cursor: pointer; }
+
+footer { color: var(--muted); font-size: 12.5px; margin-top: 34px; line-height: 1.5; }
+footer p { margin: 0 0 8px; }
+footer a { color: inherit; }
+.sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+
+@media (max-width: 360px) {
+  .hero-grid { grid-template-columns: 1fr 92px; }
+  .poster { width: 92px; }
+  .show-top { grid-template-columns: minmax(0, 1fr) 76px; }
+  .thumb { width: 76px; }
+  .choices button { font-size: 13px; }
+  #save { padding: 12px 14px; font-size: 16px; }
+}
+</style>
+</head>
+<body>
+<header class="hero">
+  <div class="wrap">
+    <span class="date-pill">ŚR 11.11 · GDAŃSK · ŚWIĘTO</span>
+    <div class="hero-grid">
+      <h1>Zobaczysz wszystko. <em>Kiedy idziemy?</em></h1>
+      <div class="poster"><img src="https://img.helios.pl/obrazy/265x382@x2/film/zobaczysz-wszystko/zobaczysz-wszystko-plakat-114.jpg" alt="Plakat filmu Zobaczysz wszystko"></div>
+    </div>
+    <div class="stickers">
+      <div class="sticker a"><img src="https://upload.wikimedia.org/wikipedia/commons/b/b7/Nathan_Fielder_%28cropped%29.jpg" alt="Nathan Fielder"></div>
+      <div class="bubble">Zaplanowałem każdą minutę tego wieczoru. Brakuje tylko twojego głosu.</div>
+    </div>
+    <p class="lede">Przy każdym seansie kliknij: pasuje, jeśli muszę albo nie pasuje. Na dole zapisz. Możesz potem wrócić i zmienić zdanie.</p>
+    <ul class="facts">
+      <li>2 h 54 min</li>
+      <li>z reklamami ok. 3 h 20 min</li>
+      <li>2D z napisami</li>
+    </ul>
+  </div>
+</header>
+
+<main class="wrap">
+  <section class="box">
+    <label class="name" for="name">Jak masz na imię?
+      <input id="name" type="text" maxlength="40" autocomplete="given-name" enterkeyhint="done" placeholder="np. Kamil">
+    </label>
+    <p class="hint">Twoje imię zobaczą wszyscy przy seansach, które zaznaczysz.</p>
+  </section>
+
+  <section id="results" class="box" aria-live="polite">
+    <h2>Wyniki na żywo</h2>
+    <div id="results-body"><p class="empty">Ładuję głosy…</p></div>
+  </section>
+
+  <section class="box info">
+    <h2>Ceny w skrócie</h2>
+    <p><b>Helios:</b> jedna cena na całą salę, ale rośnie z każdym dniem bliżej seansu. Kupując 7.11 lub wcześniej 22,90 zł, 8.11 26,90 zł, 9.11 29,90 zł, 10.11 31,90 zł, w dniu seansu 33,90 zł. Sala Dream +10 zł.</p>
+    <p><b>Multikino:</b> cena nie zależy od dnia zakupu, tylko od strefy w sali:</p>
+    <dl class="zones">
+      <dt>VIP</dt><dd>środek sali, fotele z szerokim podłokietnikiem</dd>
+      <dt>Standard</dt><dd>większość pozostałych rzędów</dd>
+      <dt>Promo</dt><dd>rzędy bliżej ekranu</dd>
+      <dt>Super Promo</dt><dd>pierwsze rzędy tuż przy ekranie</dd>
+    </dl>
+    <p>Seanse o 17:00 i 18:00 w Multikinie są oznaczone jako SUPERHIT i są droższe.</p>
+  </section>
+
+  <div id="cinemas"></div>
+
+  <footer>
+    <p>Seanse, ceny, linki i zajętość sal sprawdzone <span id="checked"></span>. Mapy sal to screenshoty z tamtej chwili. Aktualne wolne miejsca zobaczysz po kliknięciu „Kup bilet”. Na mapach Multikina kolor obramowania to strefa, a szare miejsca są zajęte. Na mapach Heliosa krzyżyk oznacza miejsce zajęte.</p>
+  </footer>
+</main>
+
+<div class="savebar">
+  <div class="wrap">
+    <div class="status" id="status">Zaznacz seanse i wpisz imię.</div>
+    <button id="save" type="button">Zapisz głos</button>
+  </div>
+</div>
+
+<div class="toast" id="toast" role="status"><img src="https://upload.wikimedia.org/wikipedia/commons/1/11/Nathan_Fielder_%286775535462%29_%28cropped%29.jpg" alt=""><span id="toast-text">Zapisane!</span></div>
+
+<dialog id="lightbox">
+  <button type="button" class="close" id="lb-close">Zamknij</button>
+  <img id="lb-img" alt="">
+  <p id="lb-cap"></p>
+</dialog>
+
+<script>
+const SUPABASE_URL = "https://aerdxfdsohfltwubwasw.supabase.co";
+const SUPABASE_KEY = "sb_publishable_ZtT-XY80WeJ-VN1BoB2IHQ_Z2grhD_7";
+const CHECKED_AT = "7.11 ok. 13:45";
+
+const MK = id => "https://www.multikino.pl/rezerwacja-biletow/podsumowanie/0004/HO00002997/" + id;
+const HF = id => "https://bilety.helios.pl/screen/" + id + "?cinemaId=60cfe883-55aa-4e28-be7f-233f589a34cb";
+const HM = id => "https://bilety.helios.pl/screen/" + id + "?cinemaId=d09e2607-693f-479f-8deb-59a18add40eb";
+
+// Multikino: cena biletu w strefie (zł); system dolicza 3 zł opłaty online
+const MK_BASE = [["VIP", 36.9], ["Standard", 31.9], ["Promo", 26.9], ["Super Promo", 21.9]];
+const MK_HIT  = [["VIP", 40.9], ["Standard", 35.9], ["Promo", 29.9], ["Super Promo", 21.9]];
+// Helios: cena zależy od tego, ile dni przed seansem kupujesz (cennik Helios Gdańsk)
+const SHOW_DATE = new Date(2026, 10, 11);
+const HELIOS_BY_DAYS = d => d >= 4 ? 22.9 : d === 3 ? 26.9 : d === 2 ? 29.9 : d === 1 ? 31.9 : 33.9;
+const daysBefore = (from = new Date()) => Math.round((SHOW_DATE - new Date(from.getFullYear(), from.getMonth(), from.getDate())) / 864e5);
+const zl = v => v.toFixed(2).replace(".", ",") + " zł";
+
+const CINEMAS = [
+  { id: "mk", name: "Multikino", note: "Multikino Gdańsk, 8 seansów" },
+  { id: "hf", name: "Helios Forum", note: "Galeria Forum, Śródmieście" },
+  { id: "hm", name: "Helios Metropolia", note: "Galeria Metropolia, Wrzeszcz" },
+];
+const SHOWS = [
+  { id: "mk-1050", c: "mk", t: "10:50", sala: "Sala 10", free: 227, total: 234, url: MK(103180), p: MK_BASE },
+  { id: "mk-1225", c: "mk", t: "12:25", sala: "Sala 2",  free: 463, total: 474, url: MK(103151), p: MK_BASE },
+  { id: "mk-1425", c: "mk", t: "14:25", sala: "Sala 10", free: 227, total: 234, url: MK(103179), p: MK_BASE },
+  { id: "mk-1600", c: "mk", t: "16:00", sala: "Sala 2",  free: 467, total: 474, url: MK(103148), p: MK_BASE },
+  { id: "mk-1700", c: "mk", t: "17:00", sala: "Sala 1", tag: "projektor laserowy · SUPERHIT", free: 339, total: 348, url: MK(103124), p: MK_HIT },
+  { id: "mk-1800", c: "mk", t: "18:00", sala: "Sala 10", tag: "SUPERHIT", free: 226, total: 234, url: MK(103181), p: MK_HIT },
+  { id: "mk-1935", c: "mk", t: "19:35", sala: "Sala 2",  free: 467, total: 474, url: MK(103149), p: MK_BASE },
+  { id: "mk-2035", c: "mk", t: "20:35", sala: "Sala 1", tag: "projektor laserowy", free: 341, total: 348, url: MK(103125), p: MK_BASE },
+  { id: "hf-1050", c: "hf", t: "10:50", sala: "Sala 7 Dream", tag: "rozkładane fotele", dream: true, free: 25, total: 46, url: HF("7c121cdd-cfe1-4f72-a9a1-9ed346f13d06") },
+  { id: "hf-1420", c: "hf", t: "14:20", sala: "Sala 5", free: 208, total: 217, url: HF("8880ec8a-7feb-4fe7-8b49-68147e4ca817") },
+  { id: "hf-1900", c: "hf", t: "19:00", sala: "Sala 9", free: 212, total: 219, url: HF("746329a9-ccae-4181-b19b-56db81847fb7") },
+  { id: "hm-1100", c: "hm", t: "11:00", sala: "Sala 1", free: 144, total: 147, url: HM("2cbf6bea-d41f-4b7c-b7a6-74bc2eb7faf9") },
+  { id: "hm-1240", c: "hm", t: "12:40", sala: "Sala 4", free: 141, total: 143, url: HM("89f65de9-a940-4817-be6f-ac72dfbbb750") },
+  { id: "hm-1700", c: "hm", t: "17:00", sala: "Sala 2", free: 129, total: 142, url: HM("4dcea65f-9e52-4f83-8418-5b5ab59aec40") },
+  { id: "hm-1900", c: "hm", t: "19:00", sala: "Sala 6", free: 162, total: 168, url: HM("e0346928-04f6-458d-8de2-c7d484a251c4") },
+];
+const LABEL = { yes: "Pasuje", maybe: "Jeśli muszę", no: "Nie pasuje" };
+const ICON = { yes: "✓", maybe: "~", no: "✕" };
+const cinemaName = id => CINEMAS.find(c => c.id === id).name;
+const endTime = t => { const [h, m] = t.split(":").map(Number); const e = h * 60 + m + 200; return String(Math.floor(e / 60) % 24).padStart(2, "0") + ":" + String(e % 60).padStart(2, "0"); };
+
+// ---- local state (this phone only) ----
+const store = {
+  get(k, d) { try { const v = localStorage.getItem(k); return v == null ? d : JSON.parse(v); } catch { return d; } },
+  set(k, v) { try { localStorage.setItem(k, JSON.stringify(v)); } catch {} },
+};
+function uuid() {
+  if (crypto.randomUUID) return crypto.randomUUID();
+  const b = crypto.getRandomValues(new Uint8Array(16)); b[6] = (b[6] & 15) | 64; b[8] = (b[8] & 63) | 128;
+  const h = [...b].map(x => x.toString(16).padStart(2, "0")).join("");
+  return `${h.slice(0, 8)}-${h.slice(8, 12)}-${h.slice(12, 16)}-${h.slice(16, 20)}-${h.slice(20)}`;
+}
+let token = store.get("kino-token", null);
+if (!token) { token = uuid(); store.set("kino-token", token); }
+let mine = store.get("kino-answers", {});
+let savedSnapshot = store.get("kino-saved", "");
+let responses = [];
+let loadedOnce = false;
+
+const $ = s => document.querySelector(s);
+const nameInput = $("#name");
+nameInput.value = store.get("kino-name", "");
+$("#checked").textContent = CHECKED_AT;
+const snapshot = () => JSON.stringify({ n: nameInput.value.trim(), a: mine });
+
+// ---- showing cards ----
+function priceHtml(s) {
+  if (s.p) return s.p.map(([z, v]) => `<span class="price"><b>${zl(v)}</b> ${z}</span>`).join("");
+  const d = daysBefore();
+  const extra = s.dream ? 10 : 0;
+  if (d < 0) return `<span class="price">seans już był</span>`;
+  let html = `<span class="price"><b>${zl(HELIOS_BY_DAYS(d) + extra)}</b> ${d === 0 ? "w dniu seansu" : "kupując dziś"}</span>`;
+  if (d > 0) html += `<span class="price later">od jutra ${zl(HELIOS_BY_DAYS(d - 1) + extra)}</span>`;
+  if (s.dream) html += `<span class="price later">w tym +10 zł za Dream</span>`;
+  return html;
+}
+function renderCinemas() {
+  const root = $("#cinemas");
+  root.textContent = "";
+  CINEMAS.forEach((c, ci) => {
+    const sec = document.createElement("section");
+    sec.className = "cinema";
+    sec.innerHTML = `<div class="cinema-head"><h2></h2><span></span></div><div class="shows"></div>`;
+    sec.querySelector("h2").textContent = c.name;
+    sec.querySelector("span").textContent = c.note;
+    const list = sec.querySelector(".shows");
+    for (const s of SHOWS.filter(s => s.c === c.id)) {
+      const el = document.createElement("article");
+      el.className = "show";
+      el.dataset.id = s.id;
+      const pct = Math.round((1 - s.free / s.total) * 100);
+      el.innerHTML = `
+        <div class="show-top">
+          <div>
+            <div class="time">${s.t}<small>koniec ok. ${endTime(s.t)}</small></div>
+            <div class="meta">${s.sala}${s.tag ? ` · <span class="tag">${s.tag}</span>` : ""}</div>
+            <div class="occ">wolne ${s.free} z ${s.total} · zajęte ${pct}%<div class="bar"><i style="width:${Math.max(pct, 2)}%"></i></div></div>
+          </div>
+          <button class="thumb" type="button" aria-label="Pokaż mapę sali: ${cinemaName(s.c)} ${s.t}">
+            <img src="sale/${s.id}.png" alt="" loading="lazy"><span>mapa sali</span>
+          </button>
+        </div>
+        <div class="prices">${priceHtml(s)}</div>
+        <div class="choices" role="group" aria-label="Czy pasuje ci ${cinemaName(s.c)} ${s.t}?">
+          <button type="button" data-v="yes" aria-pressed="false"><span class="ic" aria-hidden="true">✓</span>Pasuje</button>
+          <button type="button" data-v="maybe" aria-pressed="false"><span class="ic" aria-hidden="true">~</span>Jeśli muszę</button>
+          <button type="button" data-v="no" aria-pressed="false"><span class="ic" aria-hidden="true">✕</span>Nie pasuje</button>
+        </div>
+        <div class="voters" aria-label="Kto co zaznaczył"></div>
+        <div class="show-foot">
+          <span class="fee">${s.c === "mk" ? "+3 zł opłaty online / bilet" : "+1,50 zł opłaty online / bilet"}</span>
+          <a class="buy" href="${s.url}" target="_blank" rel="noopener">Kup bilet ↗</a>
+        </div>`;
+      el.querySelector(".thumb").addEventListener("click", () => openLightbox(s));
+      el.querySelectorAll(".choices button").forEach(b => b.addEventListener("click", () => {
+        const v = b.dataset.v;
+        if (mine[s.id] === v) delete mine[s.id]; else mine[s.id] = v;
+        store.set("kino-answers", mine);
+        paintChoices(); paintVoters(); updateStatus();
+      }));
+      list.appendChild(el);
+    }
+    root.appendChild(sec);
+    if (ci === 0) {
+      const f = document.createElement("section");
+      f.className = "interlude";
+      f.innerHTML = `<figure><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/5b/Dumb_Starbucks.jpg/960px-Dumb_Starbucks.jpg" alt="Kolejka przed kawiarnią Dumb Starbucks" loading="lazy"><figcaption>Kiedyś ludzie stali w takiej kolejce do Dumb Starbucks Nathana. My mamy prościej, bo sale są prawie puste.</figcaption></figure>`;
+      root.appendChild(f);
+    }
+  });
+  paintChoices();
+}
+function paintChoices() {
+  document.querySelectorAll(".show").forEach(el => {
+    const v = mine[el.dataset.id];
+    el.querySelectorAll(".choices button").forEach(b => b.setAttribute("aria-pressed", String(b.dataset.v === v)));
+  });
+}
+
+// ---- who chose what (others from the server + my unsaved picks) ----
+function tallies() {
+  const t = {};
+  for (const s of SHOWS) t[s.id] = { yes: [], maybe: [], no: [] };
+  const myName = nameInput.value.trim() || "Ty";
+  const others = responses.filter(r => !r.mine);
+  for (const r of others) for (const [sid, v] of Object.entries(r.answers || {})) if (t[sid] && t[sid][v]) t[sid][v].push({ n: r.name, me: false });
+  for (const [sid, v] of Object.entries(mine)) if (t[sid] && t[sid][v]) t[sid][v].push({ n: myName, me: true });
+  return t;
+}
+function paintVoters() {
+  const t = tallies();
+  document.querySelectorAll(".show").forEach(el => {
+    const x = t[el.dataset.id];
+    const box = el.querySelector(".voters");
+    box.textContent = "";
+    const all = ["yes", "maybe", "no"].flatMap(v => x[v].map(p => [v, p]));
+    if (!all.length) {
+      const p = document.createElement("span"); p.className = "nobody";
+      p.textContent = loadedOnce ? "Jeszcze nikt nie zaznaczył tego seansu." : "Ładuję głosy…";
+      box.append(p); return;
+    }
+    for (const [v, p] of all) {
+      const chip = document.createElement("span");
+      chip.className = "voter " + v + (p.me ? " me" : "");
+      chip.title = p.n + ": " + LABEL[v];
+      const i = document.createElement("i"); i.textContent = ICON[v]; i.setAttribute("aria-hidden", "true");
+      const sr = document.createElement("span"); sr.className = "sr"; sr.textContent = LABEL[v] + ": ";
+      chip.append(i, sr, p.n);
+      box.append(chip);
+    }
+  });
+  renderResults(t);
+}
+function renderResults(t) {
+  const body = $("#results-body");
+  const people = [...new Set([...responses.filter(r => !r.mine).map(r => r.name), ...(Object.keys(mine).length ? [nameInput.value.trim() || "Ty"] : [])])];
+  const n = people.length;
+  if (!n) { body.innerHTML = `<p class="empty">${loadedOnce ? "Nikt jeszcze nie głosował. Bądź pierwszy." : "Ładuję głosy…"}</p>`; return; }
+  const ranked = SHOWS.map(s => ({ s, ...t[s.id] }))
+    .filter(x => x.yes.length + x.maybe.length > 0)
+    .sort((a, b) => a.no.length - b.no.length || b.yes.length - a.yes.length || b.maybe.length - a.maybe.length);
+  const head = document.createElement("p");
+  head.className = "hint";
+  const word = n === 1 ? "osoba" : (n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 10 || n % 100 >= 20)) ? "osoby" : "osób";
+  head.textContent = `Głosuje ${n} ${word}: ${people.join(", ")}. Na górze seanse, przy których najmniej osób kliknęło „nie pasuje”.`;
+  body.textContent = "";
+  body.append(head);
+  if (!ranked.length) { const p = document.createElement("p"); p.className = "empty"; p.textContent = "Na razie żaden seans nikomu nie pasuje."; body.append(p); return; }
+  const ol = document.createElement("ol");
+  ol.className = "rank";
+  ranked.slice(0, 5).forEach((x, i) => {
+    const li = document.createElement("li");
+    const w = k => (x[k].length / n * 100) + "%";
+    li.innerHTML = `<div class="pos">${i + 1}</div><div><div class="what"></div><div class="bar"><i class="y" style="width:${w("yes")}"></i><i class="m" style="width:${w("maybe")}"></i><i class="n" style="width:${w("no")}"></i></div><div class="voters" style="margin-top:8px"></div></div>`;
+    li.querySelector(".what").textContent = `${cinemaName(x.s.c)} ${x.s.t}`;
+    if (i === 0 && x.no.length === 0 && x.yes.length + x.maybe.length === n && n > 1) {
+      const b = document.createElement("span"); b.className = "best"; b.textContent = "pasuje wszystkim"; li.querySelector(".what").appendChild(b);
+    }
+    const vb = li.querySelector(".voters");
+    for (const v of ["yes", "maybe", "no"]) for (const p of x[v]) {
+      const chip = document.createElement("span"); chip.className = "voter " + v + (p.me ? " me" : "");
+      const ic = document.createElement("i"); ic.textContent = ICON[v]; ic.setAttribute("aria-hidden", "true");
+      const sr = document.createElement("span"); sr.className = "sr"; sr.textContent = LABEL[v] + ": ";
+      chip.append(ic, sr, p.n); vb.append(chip);
+    }
+    ol.appendChild(li);
+  });
+  body.append(ol);
+}
+
+// ---- network ----
+async function load() {
+  try {
+    const r = await fetch(`${SUPABASE_URL}/rest/v1/responses?select=id,name,answers,updated_at&order=updated_at.asc`, { headers: { apikey: SUPABASE_KEY }, cache: "no-store" });
+    if (!r.ok) throw new Error(r.status);
+    const rows = await r.json();
+    const myId = store.get("kino-row-id", null);
+    responses = rows.map(x => ({ ...x, mine: x.id === myId }));
+    loadedOnce = true;
+    paintVoters();
+  } catch (e) {
+    loadedOnce = true;
+    $("#results-body").innerHTML = `<p class="empty">Nie udało się pobrać głosów. Sprawdź internet i odśwież stronę.</p>`;
+  }
+}
+async function save() {
+  const name = nameInput.value.trim();
+  if (!name) { setStatus("Najpierw wpisz imię na górze strony."); nameInput.focus({ preventScroll: false }); nameInput.scrollIntoView({ block: "center", behavior: "smooth" }); return; }
+  if (!Object.keys(mine).length) { setStatus("Zaznacz przynajmniej jeden seans."); return; }
+  const btn = $("#save"); btn.disabled = true; setStatus("Zapisuję…");
+  try {
+    const r = await fetch(`${SUPABASE_URL}/rest/v1/rpc/upsert_response`, {
+      method: "POST",
+      headers: { apikey: SUPABASE_KEY, "Content-Type": "application/json" },
+      body: JSON.stringify({ p_token: token, p_name: name, p_answers: mine }),
+    });
+    if (!r.ok) throw new Error(await r.text());
+    store.set("kino-name", name);
+    savedSnapshot = snapshot(); store.set("kino-saved", savedSnapshot);
+    // find my row id so my chips aren't shown twice
+    const rows = await (await fetch(`${SUPABASE_URL}/rest/v1/responses?select=id,name,answers,updated_at&order=updated_at.desc&limit=50`, { headers: { apikey: SUPABASE_KEY }, cache: "no-store" })).json();
+    const me = rows.find(x => x.name === name && JSON.stringify(x.answers) === JSON.stringify(mine));
+    if (me) store.set("kino-row-id", me.id);
+    toast(`Zapisane, ${name}! Nathan jest z ciebie dumny.`);
+    updateStatus();
+    await load();
+  } catch (e) {
+    setStatus("Nie udało się zapisać. Sprawdź internet i spróbuj jeszcze raz.");
+  } finally { btn.disabled = false; }
+}
+function setStatus(t) { $("#status").textContent = t; }
+function updateStatus() {
+  const n = Object.keys(mine).length;
+  const dirty = snapshot() !== savedSnapshot;
+  if (!n) setStatus("Zaznacz seanse i wpisz imię.");
+  else setStatus(dirty ? `Zaznaczone ${n} z ${SHOWS.length}. Nie zapomnij zapisać!` : `Zaznaczone ${n} z ${SHOWS.length}. Zapisane ✓`);
+}
+let toastTimer;
+function toast(text) {
+  $("#toast-text").textContent = text;
+  $("#toast").classList.add("show");
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => $("#toast").classList.remove("show"), 3200);
+}
+
+// ---- lightbox ----
+const lb = $("#lightbox");
+function openLightbox(s) {
+  $("#lb-img").src = `sale/${s.id}.png`;
+  $("#lb-img").alt = `Mapa sali, ${cinemaName(s.c)} ${s.t}`;
+  $("#lb-cap").textContent = `${cinemaName(s.c)} · ${s.t} · ${s.sala} · stan z ${CHECKED_AT}. ${s.c === "mk" ? "Szare miejsca są zajęte." : "Krzyżyk oznacza zajęte miejsce."}`;
+  lb.showModal();
+}
+$("#lb-close").addEventListener("click", () => lb.close());
+lb.addEventListener("click", e => { if (e.target === lb) lb.close(); });
+
+nameInput.addEventListener("input", () => { updateStatus(); paintVoters(); });
+nameInput.addEventListener("keydown", e => { if (e.key === "Enter") nameInput.blur(); });
+$("#save").addEventListener("click", save);
+renderCinemas();
+paintVoters();
+updateStatus();
+load();
+setInterval(() => { if (!document.hidden) load(); }, 20000);
+document.addEventListener("visibilitychange", () => { if (!document.hidden) load(); });
+</script>
+</body>
+</html>
