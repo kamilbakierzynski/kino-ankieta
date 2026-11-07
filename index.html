@@ -185,7 +185,6 @@ dialog img { width: 100%; height: auto; display: block; border-radius: 4px; bord
 dialog p { color: #fff; font: 400 13px/1.4 var(--type); margin: 8px 2px 0; }
 dialog .close { position: absolute; top: 8px; right: 8px; font: 700 13px var(--sans); border: 0; border-radius: 4px; padding: 8px 12px; background: var(--tape); color: var(--ink); cursor: pointer; }
 
-footer { color: var(--muted); font: 400 11.5px/1.5 var(--type); margin-top: 24px; }
 .sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
 
 @media (max-width: 350px) {
@@ -239,8 +238,6 @@ footer { color: var(--muted); font: 400 11.5px/1.5 var(--type); margin-top: 24px
 
   <div id="cinemas"></div>
 
-  <footer>
-    Seanse, ceny i zajętość sal sprawdzone <span id="checked"></span>. Mapy sal to screenshoty z tamtej chwili. Multikino: kolor obramowania to strefa, szare miejsca są zajęte. Helios: krzyżyk oznacza zajęte miejsce.  </footer>
 </main>
 
 <div class="savebar">
@@ -261,7 +258,6 @@ footer { color: var(--muted); font: 400 11.5px/1.5 var(--type); margin-top: 24px
 <script>
 const SUPABASE_URL = "https://aerdxfdsohfltwubwasw.supabase.co";
 const SUPABASE_KEY = "sb_publishable_ZtT-XY80WeJ-VN1BoB2IHQ_Z2grhD_7";
-const CHECKED_AT = "7.11 ok. 13:45";
 
 // Helios: cena zależy od tego, ile dni przed seansem kupujesz (cennik Helios Gdańsk)
 const SHOW_DATE = new Date(2026, 10, 11);
@@ -330,7 +326,6 @@ let loadedOnce = false;
 const $ = s => document.querySelector(s);
 const nameInput = $("#name");
 nameInput.value = store.get("kino-name", "");
-$("#checked").textContent = CHECKED_AT;
 const snapshot = () => JSON.stringify({ n: nameInput.value.trim(), a: mine });
 const myName = () => nameInput.value.trim() || "Ty";
 
@@ -560,7 +555,7 @@ const lb = $("#lightbox");
 function openLightbox(s) {
   $("#lb-img").src = `sale/${s.id}.png`;
   $("#lb-img").alt = `Mapa sali, ${cinemaName(s.c)} ${s.t}`;
-  $("#lb-cap").textContent = `${cinemaName(s.c)} · ${s.t} · ${s.sala} · stan z ${CHECKED_AT}. ${s.c === "mk" ? "Szare miejsca są zajęte." : "Krzyżyk = zajęte."}`;
+  $("#lb-cap").textContent = `${cinemaName(s.c)} · ${s.t} · ${s.sala}. ${s.c === "mk" ? "Szare miejsca są zajęte." : "Krzyżyk = zajęte."}`;
   lb.showModal();
 }
 $("#lb-close").addEventListener("click", () => lb.close());
