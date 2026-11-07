@@ -124,6 +124,8 @@ details.prices-info p { margin: 6px 0 0; }
 .show.picked-no { box-shadow: inset 4px 0 0 var(--no); }
 .s-top { display: grid; grid-template-columns: auto minmax(0, 1fr) auto; gap: 10px; align-items: center; }
 .time { font: 700 24px/1 var(--type); letter-spacing: -.04em; }
+.time.vip { font: 800 15px/1 var(--sans); letter-spacing: .04em; background: var(--ink); color: var(--tape); padding: 8px 8px; border-radius: 4px; }
+.show.extra { background: #fffbe0; border-style: dashed; }
 .info { min-width: 0; font-size: 12.5px; line-height: 1.3; }
 .info .l1 { font-weight: 700; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .info .l1 .tag { color: var(--marker); }
@@ -197,7 +199,7 @@ footer { color: var(--muted); font: 400 11.5px/1.5 var(--type); margin-top: 24px
 <body>
 <header class="hero">
   <div class="wrap">
-    <div class="slate"><span>Próba nr <b>1</b> z <b>∞</b></span><span><b>śr 11.11</b> · Gdańsk</span></div>
+    <div class="slate"><span>Próba nr <b>1</b></span><span><b>śr 11.11</b> · Gdańsk</span></div>
     <div class="title-row">
       <div>
         <div class="stamp">PRÓBA GENERALNA</div>
@@ -208,12 +210,12 @@ footer { color: var(--muted); font: 400 11.5px/1.5 var(--type); margin-top: 24px
     <div class="scene">
       <img src="https://upload.wikimedia.org/wikipedia/commons/b/b7/Nathan_Fielder_%28cropped%29.jpg" alt="Nathan Fielder">
       <div class="rec">REC · ujęcie 14</div>
-      <div class="sub"><span>Zbudowałem replikę każdej sali w Gdańsku. Teraz potrzebuję tylko twojej odpowiedzi.</span></div>
+      <div class="sub"><span>3 kina, 15 seansów. Trzeba tylko wybrać jeden.</span></div>
     </div>
     <div class="flow" aria-hidden="true">
-      <div class="a y"><b>✓ Pasuje</b>idziemy zgodnie z planem</div>
-      <div class="a m"><b>~ Jeśli muszę</b>przećwiczymy twój entuzjazm</div>
-      <div class="a n"><b>✕ Nie</b>budujemy scenariusz awaryjny</div>
+      <div class="a y"><b>✓ Pasuje</b>chętnie pójdę</div>
+      <div class="a m"><b>~ Jeśli muszę</b>pójdę, jeśli tak wyjdzie</div>
+      <div class="a n"><b>✕ Nie</b>nie dam rady</div>
     </div>
   </div>
 </header>
@@ -238,8 +240,7 @@ footer { color: var(--muted); font: 400 11.5px/1.5 var(--type); margin-top: 24px
   <div id="cinemas"></div>
 
   <footer>
-    Seanse, ceny i zajętość sal sprawdzone <span id="checked"></span>. Mapy sal to screenshoty z tamtej chwili. Multikino: kolor obramowania to strefa, szare miejsca są zajęte. Helios: krzyżyk oznacza zajęte miejsce. Żaden Nathan nie ucierpiał przy budowie tej ankiety.
-  </footer>
+    Seanse, ceny i zajętość sal sprawdzone <span id="checked"></span>. Mapy sal to screenshoty z tamtej chwili. Multikino: kolor obramowania to strefa, szare miejsca są zajęte. Helios: krzyżyk oznacza zajęte miejsce.  </footer>
 </main>
 
 <div class="savebar">
@@ -291,12 +292,12 @@ const SHOWS = [
   { id: "hm-1900", c: "hm", t: "19:00", sala: "Sala 6", free: 162, total: 168 },
 ];
 const LABEL = { yes: "Pasuje", maybe: "Jeśli muszę", no: "Nie pasuje" };
+const VIP_ID = "mk-vip";
+const VIP_LABEL = { yes: "Chcę VIP", maybe: "Obojętnie", no: "Szkoda kasy" };
+const showCount = () => Object.keys(mine).filter(k => k !== VIP_ID).length;
 const ICON = { yes: "✓", maybe: "~", no: "✕" };
 const SAVED_LINES = [
-  "Zapisane. Przećwiczymy to jeszcze kilka razy.",
-  "Zapisane. Nathan kiwa głową z aprobatą.",
   "Zapisane. Scenariusz zaktualizowany.",
-  "Zapisane. Aktor grający ciebie dostał nowe instrukcje.",
 ];
 const cinemaName = id => CINEMAS.find(c => c.id === id).name;
 const endTime = t => { const [h, m] = t.split(":").map(Number); const e = h * 60 + m + 200; return String(Math.floor(e / 60) % 24).padStart(2, "0") + ":" + String(e % 60).padStart(2, "0"); };
@@ -378,11 +379,37 @@ function renderCinemas() {
       }));
       list.appendChild(el);
     }
+    if (c.id === "mk") {
+      const v = document.createElement("article");
+      v.className = "show extra";
+      v.dataset.id = VIP_ID;
+      v.innerHTML = `
+        <div class="s-top" style="grid-template-columns:auto minmax(0,1fr)">
+          <div class="time vip">VIP</div>
+          <div class="info">
+            <div class="l1">Fotele VIP w Multikinie?</div>
+            <div class="l2">środek sali, szeroki podłokietnik · +5 zł za bilet</div>
+          </div>
+        </div>
+        <div class="choices" role="group" aria-label="Czy chcesz fotele VIP w Multikinie?">
+          <button type="button" data-v="yes" aria-pressed="false"><span class="ic" aria-hidden="true">✓</span>Chcę VIP</button>
+          <button type="button" data-v="maybe" aria-pressed="false"><span class="ic" aria-hidden="true">~</span>Obojętnie</button>
+          <button type="button" data-v="no" aria-pressed="false"><span class="ic" aria-hidden="true">✕</span>Szkoda</button>
+        </div>
+        <div class="voters" aria-label="Kto chce fotele VIP"></div>`;
+      v.querySelectorAll(".choices button").forEach(b => b.addEventListener("click", () => {
+        const val = b.dataset.v;
+        if (mine[VIP_ID] === val) delete mine[VIP_ID]; else mine[VIP_ID] = val;
+        store.set("kino-answers", mine);
+        paintChoices(); paintVoters(); updateStatus();
+      }));
+      list.appendChild(v);
+    }
     root.appendChild(sec);
     if (ci === 0) {
       const m = document.createElement("aside");
       m.className = "memo";
-      m.innerHTML = `<img src="https://upload.wikimedia.org/wikipedia/commons/1/11/Nathan_Fielder_%286775535462%29_%28cropped%29.jpg" alt=""><p><b>Notatka z planu:</b> sale są w 97% puste. Na wszelki wypadek wynająłem 300 statystów, żeby było przytulniej.</p>`;
+      m.innerHTML = `<img src="https://upload.wikimedia.org/wikipedia/commons/1/11/Nathan_Fielder_%286775535462%29_%28cropped%29.jpg" alt=""><p><b>Notatka z planu:</b> sale są prawie puste, o miejsca nie trzeba się martwić. W Heliosie bilety drożeją z każdym dniem.</p>`;
       root.appendChild(m);
     }
   });
@@ -401,16 +428,17 @@ function paintChoices() {
 function tallies() {
   const t = {};
   for (const s of SHOWS) t[s.id] = { yes: [], maybe: [], no: [] };
+  t[VIP_ID] = { yes: [], maybe: [], no: [] };
   for (const r of responses.filter(r => !r.mine)) for (const [sid, v] of Object.entries(r.answers || {})) if (t[sid] && t[sid][v]) t[sid][v].push({ n: r.name, me: false });
   for (const [sid, v] of Object.entries(mine)) if (t[sid] && t[sid][v]) t[sid][v].push({ n: myName(), me: true });
   return t;
 }
-function chip(v, p) {
+function chip(v, p, labels = LABEL) {
   const c = document.createElement("span");
   c.className = "voter " + v + (p.me ? " me" : "");
-  c.title = p.n + ": " + LABEL[v];
+  c.title = p.n + ": " + labels[v];
   const i = document.createElement("i"); i.textContent = ICON[v]; i.setAttribute("aria-hidden", "true");
-  const sr = document.createElement("span"); sr.className = "sr"; sr.textContent = LABEL[v] + ": ";
+  const sr = document.createElement("span"); sr.className = "sr"; sr.textContent = labels[v] + ": ";
   c.append(i, sr, p.n);
   return c;
 }
@@ -420,7 +448,8 @@ function paintVoters() {
     const x = t[el.dataset.id];
     const box = el.querySelector(".voters");
     box.textContent = "";
-    for (const v of ["yes", "maybe", "no"]) for (const p of x[v]) box.append(chip(v, p));
+    const labels = el.dataset.id === VIP_ID ? VIP_LABEL : LABEL;
+    for (const v of ["yes", "maybe", "no"]) for (const p of x[v]) box.append(chip(v, p, labels));
   });
   renderResults(t);
 }
@@ -429,12 +458,12 @@ function renderResults(t) {
   const people = [...new Set([...responses.filter(r => !r.mine).map(r => r.name), ...(Object.keys(mine).length ? [myName()] : [])])];
   const n = people.length;
   body.textContent = "";
-  if (!n) { body.innerHTML = `<p class="empty">${loadedOnce ? "Nikt jeszcze nie zagłosował. Próba stoi w miejscu." : "Ładuję głosy…"}</p>`; return; }
+  if (!n) { body.innerHTML = `<p class="empty">${loadedOnce ? "Nikt jeszcze nie zagłosował." : "Ładuję głosy…"}</p>`; return; }
   const score = x => x.yes.length * 2 + x.maybe.length - x.no.length * 3;
   const ranked = SHOWS.map(s => ({ s, ...t[s.id] }))
     .filter(x => x.yes.length + x.maybe.length > 0)
     .sort((a, b) => a.no.length - b.no.length || score(b) - score(a) || b.yes.length - a.yes.length);
-  if (!ranked.length) { body.innerHTML = `<p class="empty">Na razie żaden seans nikomu nie pasuje. Potrzebny scenariusz awaryjny.</p>`; }
+  if (!ranked.length) { body.innerHTML = `<p class="empty">Na razie żaden seans nikomu nie pasuje.</p>`; }
   else {
     const ol = document.createElement("ol");
     ol.className = "chart";
@@ -451,6 +480,13 @@ function renderResults(t) {
     lg.className = "legend";
     lg.innerHTML = `<span><i style="background:var(--yes)"></i>pasuje</span><span><i style="background:var(--maybe)"></i>jeśli muszę</span><span><i style="background:var(--no)"></i>nie</span><span>pełny pasek = wszyscy</span>`;
     body.append(lg);
+  }
+  const vip = t[VIP_ID];
+  if (vip.yes.length + vip.maybe.length + vip.no.length) {
+    const vp = document.createElement("p");
+    vp.className = "who";
+    vp.textContent = `Fotele VIP w Multikinie: ${vip.yes.length} chce, ${vip.maybe.length} obojętnie, ${vip.no.length} szkoda kasy.`;
+    body.append(vp);
   }
   const who = document.createElement("p");
   who.className = "who";
@@ -484,7 +520,7 @@ async function load() {
 async function save() {
   const name = nameInput.value.trim();
   if (!name) { setStatus("Najpierw wpisz imię na górze."); nameInput.scrollIntoView({ block: "center", behavior: "smooth" }); nameInput.focus({ preventScroll: true }); return; }
-  if (!Object.keys(mine).length) { setStatus("Zaznacz przynajmniej jeden seans."); return; }
+  if (!showCount()) { setStatus("Zaznacz przynajmniej jeden seans."); return; }
   const btn = $("#save"); btn.disabled = true; setStatus("Zapisuję…");
   try {
     const r = await fetch(`${SUPABASE_URL}/rest/v1/rpc/upsert_response`, {
@@ -506,7 +542,7 @@ async function save() {
 }
 function setStatus(t) { $("#status").textContent = t; }
 function updateStatus() {
-  const n = Object.keys(mine).length;
+  const n = showCount();
   const dirty = snapshot() !== savedSnapshot;
   if (!n) setStatus("Zaznacz seanse i wpisz imię.");
   else setStatus(dirty ? `Zaznaczone ${n}/${SHOWS.length}. Niezapisane!` : `Zaznaczone ${n}/${SHOWS.length}. Zapisane ✓`);
