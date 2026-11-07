@@ -129,9 +129,9 @@ details.prices-info p { margin: 6px 0 0; }
 .info { min-width: 0; font-size: 12.5px; line-height: 1.3; }
 .info .l1 { font-weight: 700; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .info .l1 .tag { color: var(--marker); }
-.info .l2 { color: var(--muted); font-family: var(--type); font-size: 12px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.info .l2 { color: var(--muted); font-family: var(--type); font-size: 12px; }
 .mapbtn { width: 46px; height: 46px; border: 1.5px solid var(--ink); border-radius: 4px; padding: 0; overflow: hidden; background: #fff; cursor: zoom-in; position: relative; }
-.mapbtn img { width: 100%; height: 100%; object-fit: cover; object-position: center 62%; display: block; }
+.mapbtn svg { width: 34px; height: 26px; display: block; margin: 4px auto 0; }
 .mapbtn span { position: absolute; left: 0; right: 0; bottom: 0; font: 700 8.5px/1 var(--type); text-transform: uppercase; background: var(--ink); color: #fff; padding: 2px 0; }
 .mapbtn:focus-visible { outline: 3px solid var(--tape); outline-offset: 1px; }
 
@@ -362,7 +362,7 @@ function renderCinemas() {
             <div class="l1">${s.sala}${s.tag ? ` · <span class="tag">${s.tag}</span>` : ""}</div>
             <div class="l2">do ${endTime(s.t)} · zajęte ${pct}% · ${priceLine(s)}</div>
           </div>
-          <button class="mapbtn" type="button" aria-label="Mapa sali: ${cinemaName(s.c)} ${s.t}"><img src="sale/${s.id}.png" alt="" loading="lazy"><span>sala</span></button>
+          <button class="mapbtn" type="button" aria-label="Mapa sali: ${cinemaName(s.c)} ${s.t}"><svg viewBox="0 0 32 24" aria-hidden="true"><rect x="5" y="2" width="22" height="2.5" rx="1" fill="#16181d"/>${[0,1,2].map(r => [0,1,2,3,4].map(c => `<rect x="${4 + c * 5}" y="${8 + r * 5}" width="3.6" height="3.4" rx=".8" fill="${(r === 1 && c > 1 && c < 4) ? "#e3262f" : "#c9c3b3"}"/>`).join("")).join("")}</svg><span>sala</span></button>
         </div>
         <div class="choices" role="group" aria-label="Czy pasuje ci ${cinemaName(s.c)} ${s.t}?">
           <button type="button" data-v="yes" aria-pressed="false"><span class="ic" aria-hidden="true">✓</span>Pasuje</button>
